@@ -1,5 +1,9 @@
 package com.eventoapi.controllers;
 
+/** Classe que contém os métodos que compoem o CRUD relacionado a entidade Evento.
+* @author Daniel Júnior
+*/
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

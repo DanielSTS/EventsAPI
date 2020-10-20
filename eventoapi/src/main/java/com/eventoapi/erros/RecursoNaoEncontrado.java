@@ -1,5 +1,10 @@
 package com.eventoapi.erros;
 
+/** Classe referente ao tratamento de erro, para a situação em que o recurso desejado
+* não foi encontrado, retornando então uma mensagem e o status http relacionado.
+* @author Daniel Júnior
+*/
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

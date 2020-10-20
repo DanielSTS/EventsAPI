@@ -1,5 +1,10 @@
 package com.eventoapi.models;
 
+/** Classe que contém os atributos e métodos relacionados a entidade Usuário, contendo as propriedades
+* relacionadas ao mapeamento no banco de dados.
+* @author Daniel Júnior
+*/
+
 import java.io.Serializable;
 import java.util.List;
 
