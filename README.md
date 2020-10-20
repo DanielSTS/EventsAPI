@@ -8,3 +8,4 @@ A aplicação possibilita o cadastro de eventos assim como de seus organizadores
 - `Java`
 - `SpringBoot`
 - `MySQL`
+- `Maven`
