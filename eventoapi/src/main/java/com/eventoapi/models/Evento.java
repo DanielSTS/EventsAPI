@@ -49,6 +49,19 @@ public class Evento implements Serializable {
 			)
 	private List<Usuario> usuarios;
 	
+	public Evento() {
+		
+	}
+	
+	public Evento(String nome, String local, String data, String horario, int idAdm) {
+		this.nome = nome;
+		this.local = local;
+		this.data = data;
+		this.horario = horario;
+		this.idAdm = idAdm;
+	}
+	
+	
 	public int getIdAdm() {
 		return idAdm;
 	}

@@ -38,6 +38,16 @@ public class Usuario implements Serializable {
 	
 	@ManyToMany(mappedBy = "usuarios")
 	private List<Evento> eventos;
+	
+	public Usuario() {
+		
+	}
+	
+	public Usuario(String nome, String login, String senha, int rg) {
+		this.nome = nome;
+		this.login = login;
+		this.rg = rg;
+	}
 
 	public List<Evento> getEventos() {
 		return eventos;
