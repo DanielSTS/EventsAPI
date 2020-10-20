@@ -33,6 +33,9 @@ public class Evento implements Serializable {
 	@NotBlank
 	private String horario;
 	
+	@NotBlank
+	private int  idAdm;
+	
 	@ManyToMany
 	@JoinTable(
 			name="evento_usuario",
@@ -41,9 +44,6 @@ public class Evento implements Serializable {
 			)
 	private List<Usuario> usuarios;
 	
-	@NotBlank
-	private int  idAdm;
-
 	public int getIdAdm() {
 		return idAdm;
 	}

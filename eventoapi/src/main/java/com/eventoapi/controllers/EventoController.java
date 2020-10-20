@@ -1,7 +1,6 @@
 package com.eventoapi.controllers;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eventoapi.repository.EventoRepository;
-
-
+import com.eventoapi.erros.RecursoNaoEncontrado;
 import com.eventoapi.models.Evento;
 
 @RestController
@@ -24,33 +21,40 @@ import com.eventoapi.models.Evento;
 public class EventoController {
 	
 	@Autowired
-	private EventoRepository er;
+	private EventoRepository eventoDAO;
 
-	@GetMapping("/eventos")
+	@GetMapping
 	public ResponseEntity<?> listaEventos(){
-		return new ResponseEntity<> (er.findAll(),HttpStatus.OK);
+		return new ResponseEntity<> (eventoDAO.findAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/evento/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> listaEventoUnico(@PathVariable(value="id") long id){
-		return new ResponseEntity<> (er.findById(id),HttpStatus.OK);
+		verificaSeEventoExiste(id);
+		return new ResponseEntity<> (eventoDAO.findById(id), HttpStatus.OK);
 	}
 	
-	@PostMapping("/evento")
+	@PostMapping
 	public ResponseEntity<?> cadastraEvento(@RequestBody @Valid Evento evento) {
-		return new ResponseEntity<> (er.save(evento),HttpStatus.OK);
-		
+		return new ResponseEntity<> (eventoDAO.save(evento), HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/evento")
+	@DeleteMapping
 	public ResponseEntity<?>  deletaEvento(@RequestBody @Valid Evento evento) {
-		er.delete(evento);
+		verificaSeEventoExiste(evento.getCodigo());
+		eventoDAO.delete(evento);
 		return new ResponseEntity<> (evento, HttpStatus.OK);
 	}
 	
-	@PutMapping("/evento")
+	@PutMapping
 	public ResponseEntity<?> atualizaEvento(@RequestBody @Valid Evento evento) {
-		return new ResponseEntity<> (er.save(evento),HttpStatus.OK);
+		return new ResponseEntity<> (eventoDAO.save(evento), HttpStatus.OK);
+	}
+	
+	private void verificaSeEventoExiste(long id) {
+		if (eventoDAO.findById(id) == null){
+			throw new RecursoNaoEncontrado("Usuário não encontrado pelo ID: " + id);
+		}
 	}
 		
 }

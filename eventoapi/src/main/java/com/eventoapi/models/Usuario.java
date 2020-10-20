@@ -81,9 +81,4 @@ public class Usuario implements Serializable {
 	public void setRg(int rg) {
 		this.rg = rg;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 }
