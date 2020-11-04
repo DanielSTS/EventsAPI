@@ -27,7 +27,7 @@ public class EventoRepositoryTest {
 	public void testeAdiciona() {
 		Evento evento = new Evento("Hackaton", "Campina Grande", "23/04/2021", "12:23:34", 0000);
 		eventoDAO.save(evento);
-		assertEquals(evento, eventoDAO.getOne(evento.getCodigo()));
+		assertEquals(evento, eventoDAO.getOne(evento.getId()));
 	}
 	
 	@Test
@@ -36,7 +36,7 @@ public class EventoRepositoryTest {
 		eventoDAO.save(evento);
 		evento.setNome("Maratona de Programação");
 		eventoDAO.save(evento);
-		assertEquals(evento, eventoDAO.getOne(evento.getCodigo()));
+		assertEquals(evento, eventoDAO.getOne(evento.getId()));
 	}
 	
 	@Test
@@ -44,6 +44,6 @@ public class EventoRepositoryTest {
 		Evento evento = new Evento("Hackaton", "Campina Grande", "23/04/2021", "12:23:34", 0000);
 		eventoDAO.save(evento);
 		eventoDAO.delete(evento);
-		assertEquals(null, eventoDAO.getOne(evento.getCodigo()));
+		assertEquals(null, eventoDAO.getOne(evento.getId()));
 	}
 }

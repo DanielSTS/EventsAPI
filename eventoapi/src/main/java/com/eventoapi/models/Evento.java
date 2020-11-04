@@ -25,7 +25,7 @@ public class Evento implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private long codigo;
+	private long id;
 	
 	@NotBlank
 	private String nome;
@@ -40,7 +40,7 @@ public class Evento implements Serializable {
 	private String horario;
 	
 	@NotNull
-	private int  idAdm;
+	private long idAdm;
 	
 	@ManyToMany
 	@JoinTable(
@@ -61,22 +61,13 @@ public class Evento implements Serializable {
 		this.horario = horario;
 		this.idAdm = idAdm;
 	}
-	
-	
-	public int getIdAdm() {
-		return idAdm;
+
+	public long getId() {
+		return id;
 	}
 
-	public void setIdAdm(int idAdm) {
-		this.idAdm = idAdm;
-	}
-
-	public long getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(long codigo) {
-		this.codigo = codigo;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -110,7 +101,15 @@ public class Evento implements Serializable {
 	public void setHorario(String horario) {
 		this.horario = horario;
 	}
-	
+
+	public long getIdAdm() {
+		return idAdm;
+	}
+
+	public void setIdAdm(long idAdm) {
+		this.idAdm = idAdm;
+	}
+
 	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
@@ -118,5 +117,5 @@ public class Evento implements Serializable {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-
+	
 }

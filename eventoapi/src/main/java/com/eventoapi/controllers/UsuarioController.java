@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.eventoapi.erros.RecursoNaoEncontrado;
 import com.eventoapi.models.Usuario;
 import com.eventoapi.repository.UsuarioRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value="/usuarios")
 public class UsuarioController {
@@ -47,7 +49,7 @@ public class UsuarioController {
 		
 		@DeleteMapping
 		public ResponseEntity<?>  deletaUsuario(@RequestBody @Valid Usuario usuario) {
-			verificaSeUsuarioExiste(usuario.getCodigo());
+			verificaSeUsuarioExiste(usuario.getId());
 			usuarioDAO.delete(usuario);
 			return new ResponseEntity<> (usuario, HttpStatus.OK);
 		}
@@ -60,6 +62,13 @@ public class UsuarioController {
 		private void verificaSeUsuarioExiste(long id) {
 			if (usuarioDAO.findById(id).isEmpty()){
 				throw new RecursoNaoEncontrado("Usuário não encontrado pelo ID: " + id);
+			}
+		}
+		
+		private void verificaSeUsuarioExisteEmail(String email, String senha) {
+			Usuario usuario = usuarioDAO.findByEmail(email);
+			if (usuario.getSenha() != senha){
+				throw new RecursoNaoEncontrado("Senha Incorreta, Tente Novamente");
 			}
 		}
 }

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.eventoapi.erros.RecursoNaoEncontrado;
 import com.eventoapi.models.Evento;
 import com.eventoapi.repository.EventoRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value="/eventos")
 public class EventoController {
@@ -34,10 +36,10 @@ public class EventoController {
 		return new ResponseEntity<> (eventoDAO.findAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> listaEventoUnico(@PathVariable(value="id") long id){
-		verificaSeEventoExiste(id);
-		return new ResponseEntity<> (eventoDAO.findById(id), HttpStatus.OK);
+	@GetMapping("/{idAdm}")
+	public ResponseEntity<?> listaEventoUnico(@PathVariable(value="idAdm") long idAdm){
+		verificaSeEventoExisteAdm(idAdm);
+		return new ResponseEntity<> (eventoDAO.findByIdAdm(idAdm), HttpStatus.OK);
 	}
 	
 	@PostMapping
@@ -47,7 +49,7 @@ public class EventoController {
 	
 	@DeleteMapping
 	public ResponseEntity<?>  deletaEvento(@RequestBody @Valid Evento evento) {
-		verificaSeEventoExiste(evento.getCodigo());
+		verificaSeEventoExiste(evento.getId());
 		eventoDAO.delete(evento);
 		return new ResponseEntity<> (evento, HttpStatus.OK);
 	}
@@ -59,7 +61,13 @@ public class EventoController {
 	
 	private void verificaSeEventoExiste(long id) {
 		if (eventoDAO.findById(id).isEmpty()){
-			throw new RecursoNaoEncontrado("Usuário não encontrado pelo ID: " + id);
+			throw new RecursoNaoEncontrado("Evento não encontrado pelo ID: " + id);
+		}
+	}
+	
+	private void verificaSeEventoExisteAdm(long idAdm) {
+		if (eventoDAO.findByIdAdm(idAdm).isEmpty()){
+			throw new RecursoNaoEncontrado("Evento não encontrado pelo IDADM: " + idAdm);
 		}
 	}
 		

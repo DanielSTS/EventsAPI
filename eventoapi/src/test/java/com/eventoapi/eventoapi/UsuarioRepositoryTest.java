@@ -27,7 +27,7 @@ public class UsuarioRepositoryTest {
 	public void testeAdiciona() {
 		Usuario usuario = new Usuario("Daniel", "login", "senha", 0000);
 		usuarioDAO.save(usuario);
-		assertEquals(usuario, usuarioDAO.getOne(usuario.getCodigo()));
+		assertEquals(usuario, usuarioDAO.getOne(usuario.getId()));
 	}
 	
 	@Test
@@ -36,7 +36,7 @@ public class UsuarioRepositoryTest {
 		usuarioDAO.save(usuario);
 		usuario.setNome("Rodrigo");
 		usuarioDAO.save(usuario);
-		assertEquals(usuario, usuarioDAO.getOne(usuario.getCodigo()));
+		assertEquals(usuario, usuarioDAO.getOne(usuario.getId()));
 	}
 	
 	@Test
@@ -44,6 +44,6 @@ public class UsuarioRepositoryTest {
 		Usuario usuario = new Usuario("Daniel", "login", "senha", 0000);
 		usuarioDAO.save(usuario);
 		usuarioDAO.delete(usuario);
-		assertEquals(null, usuarioDAO.getOne(usuario.getCodigo()));
+		assertEquals(null, usuarioDAO.getOne(usuario.getId()));
 	}
 }

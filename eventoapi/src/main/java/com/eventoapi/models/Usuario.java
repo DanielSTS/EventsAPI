@@ -23,13 +23,13 @@ public class Usuario implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private long codigo;
+	private long id;
 	
 	@NotBlank
 	private String nome;
 	
 	@NotBlank
-	private String login;
+	private String email;
 	
 	@NotBlank
 	private String senha;
@@ -44,26 +44,18 @@ public class Usuario implements Serializable {
 		
 	}
 	
-	public Usuario(String nome, String login, String senha, int rg) {
+	public Usuario(String nome, String email, String senha, int rg) {
 		this.nome = nome;
-		this.login = login;
+		this.email = email;
 		this.rg = rg;
 	}
 
-	public List<Evento> getEventos() {
-		return eventos;
+	public long getId() {
+		return id;
 	}
 
-	public void setEventos(List<Evento> eventos) {
-		this.eventos = eventos;
-	}
-
-	public long getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(long codigo) {
-		this.codigo = codigo;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -74,12 +66,12 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {
@@ -97,4 +89,13 @@ public class Usuario implements Serializable {
 	public void setRg(int rg) {
 		this.rg = rg;
 	}
+
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = eventos;
+	}
+
 }
