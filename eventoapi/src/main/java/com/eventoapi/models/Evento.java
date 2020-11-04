@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Evento implements Serializable {
@@ -38,7 +39,7 @@ public class Evento implements Serializable {
 	@NotBlank
 	private String horario;
 	
-	@NotBlank
+	@NotNull
 	private int  idAdm;
 	
 	@ManyToMany

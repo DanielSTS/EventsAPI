@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Usuario implements Serializable {
@@ -33,7 +34,7 @@ public class Usuario implements Serializable {
 	@NotBlank
 	private String senha;
 	
-	@NotBlank
+	@NotNull
 	private int rg;
 	
 	@ManyToMany(mappedBy = "usuarios")

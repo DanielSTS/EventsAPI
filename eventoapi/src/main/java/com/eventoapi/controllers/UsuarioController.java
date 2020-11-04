@@ -5,6 +5,7 @@ package com.eventoapi.controllers;
 */
 
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class UsuarioController {
 		@Autowired
 		private UsuarioRepository usuarioDAO;
 
-		@GetMapping("/")
+		@GetMapping
 		public ResponseEntity<?> listaUsuarios(){
 			return new ResponseEntity<> (usuarioDAO.findAll(), HttpStatus.OK);
 		}
@@ -57,7 +58,7 @@ public class UsuarioController {
 		}
 		
 		private void verificaSeUsuarioExiste(long id) {
-			if (usuarioDAO.findById(id) == null){
+			if (usuarioDAO.findById(id).isEmpty()){
 				throw new RecursoNaoEncontrado("Usuário não encontrado pelo ID: " + id);
 			}
 		}

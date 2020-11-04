@@ -5,6 +5,7 @@ package com.eventoapi.controllers;
 */
 
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.eventoapi.repository.EventoRepository;
+
 import com.eventoapi.erros.RecursoNaoEncontrado;
 import com.eventoapi.models.Evento;
+import com.eventoapi.repository.EventoRepository;
 
 @RestController
 @RequestMapping(value="/eventos")
@@ -56,7 +58,7 @@ public class EventoController {
 	}
 	
 	private void verificaSeEventoExiste(long id) {
-		if (eventoDAO.findById(id) == null){
+		if (eventoDAO.findById(id).isEmpty()){
 			throw new RecursoNaoEncontrado("Usuário não encontrado pelo ID: " + id);
 		}
 	}
