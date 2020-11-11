@@ -1,10 +1,9 @@
 package com.eventoapi.controllers;
 
-/** Classe que contém os métodos que compoem o CRUD relacionado a entidade Evento.
+/** EndPoint relacionado ao evento.
 * @author Daniel Júnior
 */
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,59 +15,45 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eventoapi.erros.RecursoNaoEncontrado;
 import com.eventoapi.models.Evento;
-import com.eventoapi.repository.EventoRepository;
+import com.eventoapi.services.EventoService;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value="/eventos")
 public class EventoController {
 	
 	@Autowired
-	private EventoRepository eventoDAO;
+	private EventoService service;
 
 	@GetMapping
-	public ResponseEntity<?> listaEventos(){
-		return new ResponseEntity<> (eventoDAO.findAll(), HttpStatus.OK);
+	public ResponseEntity<?> listarEventos(){
+		return new ResponseEntity<> (this.service.listarTodos(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{idAdm}")
-	public ResponseEntity<?> listaEventoUnico(@PathVariable(value="idAdm") long idAdm){
-		verificaSeEventoExisteAdm(idAdm);
-		return new ResponseEntity<> (eventoDAO.findByIdAdm(idAdm), HttpStatus.OK);
+	public ResponseEntity<?> listarEventoUnico(@PathVariable(value="idAdm") long idAdm){
+		return new ResponseEntity<> (this.service.buscarPorIdAdm(idAdm), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> cadastraEvento(@RequestBody @Valid Evento evento) {
-		return new ResponseEntity<> (eventoDAO.save(evento), HttpStatus.CREATED);
+	public ResponseEntity<?> cadastrarEvento(@RequestBody Evento evento) {
+		return new ResponseEntity<> (service.salvar(evento), HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping
-	public ResponseEntity<?>  deletaEvento(@RequestBody @Valid Evento evento) {
-		verificaSeEventoExiste(evento.getId());
-		eventoDAO.delete(evento);
-		return new ResponseEntity<> (evento, HttpStatus.OK);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deletarEvento(@PathVariable(value="id") long id, @RequestHeader("idAdm") long idAdm) {
+		return new ResponseEntity<>(this.service.deletar(id,idAdm), HttpStatus.OK);
 	}
 	
-	@PutMapping
-	public ResponseEntity<?> atualizaEvento(@RequestBody @Valid Evento evento) {
-		return new ResponseEntity<> (eventoDAO.save(evento), HttpStatus.OK);
+	@PutMapping("/{id}/{idEvento}")
+	public ResponseEntity<?> adicionarParticipante(@PathVariable(value="id") long id, @PathVariable(value="idEvento") long idEvento) {
+		return new ResponseEntity<> (this.service.adicionarParticipante(id, idEvento), HttpStatus.OK);
 	}
 	
-	private void verificaSeEventoExiste(long id) {
-		if (eventoDAO.findById(id).isEmpty()){
-			throw new RecursoNaoEncontrado("Evento não encontrado pelo ID: " + id);
-		}
-	}
 	
-	private void verificaSeEventoExisteAdm(long idAdm) {
-		if (eventoDAO.findByIdAdm(idAdm).isEmpty()){
-			throw new RecursoNaoEncontrado("Evento não encontrado pelo IDADM: " + idAdm);
-		}
-	}
-		
 }

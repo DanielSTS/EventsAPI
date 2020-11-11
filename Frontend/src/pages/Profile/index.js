@@ -56,9 +56,25 @@ export default function Profile(){
             </header>
 
             <h1>Eventos</h1>
-
             <ul>
-                
+                {events.map(incident => (
+                    <li key={incident.id}>
+                    <strong>Caso:</strong>
+                    <p>{incident.title}</p>
+
+                    <strong>Descrição</strong>
+                    <p>{incident.description}</p>  
+
+                    <strong>Valor</strong>
+                    <p>{Intl.NumberFormat('pt-BR',{style: 'currency', currency: 'BRL'},).format(incident.value)}</p>  
+
+                    <button  onClick={() => handleDeleteEvent(incident.id)} type="button">
+                        <FiTrash2 size={20} color="#a8a8b3"/>
+                    </button>
+
+                    </li>
+                ))
+                }
             </ul>
         </div>
     ); 

@@ -6,20 +6,18 @@ package com.eventoapi.models;
 */
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Evento implements Serializable {
+	
 	
 	private static final long serialVersionUID = 1L;
 
@@ -39,27 +37,19 @@ public class Evento implements Serializable {
 	@NotBlank
 	private String horario;
 	
-	@NotNull
-	private long idAdm;
-	
-	@ManyToMany
-	@JoinTable(
-			name="evento_usuario",
-			joinColumns = @JoinColumn(name="evento_id"),
-			inverseJoinColumns = @JoinColumn(name="usuario_id")
-			)
-	private List<Usuario> usuarios;
+	@ManyToOne
+	@JoinColumn(name="evento_adm")
+	private Usuario adm;
 	
 	public Evento() {
-		
 	}
 	
-	public Evento(String nome, String local, String data, String horario, int idAdm) {
+	public Evento(String nome, String local, String data, String horario, Usuario adm) {
 		this.nome = nome;
 		this.local = local;
 		this.data = data;
 		this.horario = horario;
-		this.idAdm = idAdm;
+		this.adm = adm;
 	}
 
 	public long getId() {
@@ -102,20 +92,72 @@ public class Evento implements Serializable {
 		this.horario = horario;
 	}
 
-	public long getIdAdm() {
-		return idAdm;
-	}
-
-	public void setIdAdm(long idAdm) {
-		this.idAdm = idAdm;
-	}
-
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
 	
+	public Usuario getAdm() {
+		return adm;
+	}
+
+	public void setAdm(Usuario adm) {
+		this.adm = adm;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((adm == null) ? 0 : adm.hashCode());
+		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((horario == null) ? 0 : horario.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((local == null) ? 0 : local.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Evento other = (Evento) obj;
+		if (adm == null) {
+			if (other.adm != null)
+				return false;
+		} else if (!adm.equals(other.adm))
+			return false;
+		if (data == null) {
+			if (other.data != null)
+				return false;
+		} else if (!data.equals(other.data))
+			return false;
+		if (horario == null) {
+			if (other.horario != null)
+				return false;
+		} else if (!horario.equals(other.horario))
+			return false;
+		if (id != other.id)
+			return false;
+		if (local == null) {
+			if (other.local != null)
+				return false;
+		} else if (!local.equals(other.local))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Evento [id=" + id + ", nome=" + nome + ", local=" + local + ", data=" + data + ", horario=" + horario
+				+ ", adm=" + adm + "]";
+	}
+
+
 }

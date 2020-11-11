@@ -1,10 +1,9 @@
 package com.eventoapi.controllers;
 
-/** Classe que contém os métodos que compoem o CRUD relacionado a entidade Usuário.
+/** EndPoint relacionado ao usuário.
 * @author Daniel Júnior
 */
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,56 +18,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eventoapi.erros.RecursoNaoEncontrado;
 import com.eventoapi.models.Usuario;
-import com.eventoapi.repository.UsuarioRepository;
+import com.eventoapi.services.UsuarioService;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value="/usuarios")
 public class UsuarioController {
 	
 		@Autowired
-		private UsuarioRepository usuarioDAO;
+		private UsuarioService service;
 
 		@GetMapping
-		public ResponseEntity<?> listaUsuarios(){
-			return new ResponseEntity<> (usuarioDAO.findAll(), HttpStatus.OK);
+		public ResponseEntity<?> listarUsuarios(){
+			return new ResponseEntity<> (service.listarTodos(), HttpStatus.OK);
 		}
 		
 		@GetMapping("/{id}")
-		public ResponseEntity<?> listaUsuarioUnico(@PathVariable(value="id") long id){
-			verificaSeUsuarioExiste(id);
-			return new ResponseEntity<> (usuarioDAO.findById(id), HttpStatus.OK);
+		public ResponseEntity<?> listarUsuarioUnico(@PathVariable(value="id") long id){
+			return new ResponseEntity<> (service.buscarPorId(id), HttpStatus.OK);
 		}
 		
 		@PostMapping
-		public ResponseEntity<?> cadastraUsuario(@RequestBody @Valid Usuario usuario) {
-			return new ResponseEntity<> (usuarioDAO.save(usuario), HttpStatus.CREATED);
+		public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario usuario) {
+			return new ResponseEntity<> (service.salvar(usuario), HttpStatus.CREATED);
 		}
 		
-		@DeleteMapping
-		public ResponseEntity<?>  deletaUsuario(@RequestBody @Valid Usuario usuario) {
-			verificaSeUsuarioExiste(usuario.getId());
-			usuarioDAO.delete(usuario);
-			return new ResponseEntity<> (usuario, HttpStatus.OK);
+		@DeleteMapping("/{id}")
+		public ResponseEntity<?>  deletarUsuario(@PathVariable(value="id") long id) {
+			return new ResponseEntity<> (service.deletar(id), HttpStatus.OK);
 		}
 		
 		@PutMapping
-		public ResponseEntity<?> atualizaUsuario(@RequestBody @Valid Usuario usuario) {
-			return new ResponseEntity<> (usuarioDAO.save(usuario), HttpStatus.OK);
+		public ResponseEntity<?> atualizarUsuario(@RequestBody Usuario usuario) {
+			return new ResponseEntity<> (service.salvar(usuario), HttpStatus.OK);
 		}
 		
-		private void verificaSeUsuarioExiste(long id) {
-			if (usuarioDAO.findById(id).isEmpty()){
-				throw new RecursoNaoEncontrado("Usuário não encontrado pelo ID: " + id);
-			}
-		}
-		
-		private void verificaSeUsuarioExisteEmail(String email, String senha) {
-			Usuario usuario = usuarioDAO.findByEmail(email);
-			if (usuario.getSenha() != senha){
-				throw new RecursoNaoEncontrado("Senha Incorreta, Tente Novamente");
-			}
-		}
 }
