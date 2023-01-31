@@ -1,11 +1,10 @@
-# Desenvolvimento de uma API REST de um Sistema de Eventos
+# Events API Project
+A REST API for an Event Management System
 
-## Descrição
+## Description
+This application allows for the registration of events and their organizers, enabling interested individuals to sign up for them or even create new events.
 
-A aplicação possibilita o cadastro de eventos assim como de seus organizadores, permitindo que pessoas interessadas possam se inscrever neles, ou até mesmo criar novos eventos.
-
-
-### Tecnologias
-- `Backend`  Spring FrameWork
-- `Database` MySQL
-- `Frontend` ReactJS
+## Technologies
+- `SpringBoot`
+- `MySQL` 
+- `React.js` 
